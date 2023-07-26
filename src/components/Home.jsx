@@ -49,6 +49,7 @@ function Home() {
       setspin(false)
     }, 2000)
 
+
   }, [searchKey])
   return (
     <div>
@@ -69,7 +70,7 @@ function Home() {
         {
           editData ? <Alert className='w-50 container mt-2 text-center' variant={"success"}
             onClose={() => setEditData("")} dismissible>
-            {editData.fname} data is edited ....
+            {editData} your data edited successfully ....
           </Alert> : ""
         }
 
