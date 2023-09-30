@@ -1,0 +1,64 @@
+.delete-button-66{
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    border: none;
+    width: 100px;
+    height: 40px;
+    border-radius: 11px;
+}
+
+.view-card{
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+.view-ed-button{
+    display: flex;
+    text-align: center !important;
+    justify-content: center;
+}
+.edit-button-66{
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    border: none;
+    width: max-content;
+    height: 40px;
+    border-radius: 11px;
+}
+.view-card-div{
+    width: 25%;
+}
+@media (width<=1000px) {
+    .view-card-div{
+        width: 50%;
+    }
+}
+@media (width<=500px) {
+    .view-card-div{
+        width: 75%;
+    }
+}
+
+.edit-card-div{
+    width: 25%;
+}
+@media (width<=1550px) {
+    .edit-card-div{
+        width: 40%;
+    }
+}
+@media (width<=1000px) {
+    .edit-card-div{
+        width: 60%;
+    }
+}
+@media (width<=760px) {
+    .edit-card-div{
+        width: 70%;
+    }
+}
+@media (width<=500px) {
+    .edit-card-div{
+        width: 100%;
+    }
+}
+.checkbox-option{
+    align-items: center;
+    justify-content: center;
+}

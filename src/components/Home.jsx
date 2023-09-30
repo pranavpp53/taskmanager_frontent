@@ -1,105 +1,122 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './home.css'
 import { Link } from 'react-router-dom'
-import TableC from './TableC'
-import Loading from './Loading'
-import { deleteContext, editContext, registerContext } from './Contextshare';
-import Alert from 'react-bootstrap/Alert';
-import { deleteEmp, getEmployees } from '../service/allapi'
-
-function Home() {
+import { changeStatus, getTasks } from '../service/allapi'
 
 
-  const deleteEmployee = async (id) => {
-    const res = await deleteEmp(id)
-    if (res.status == 200) {
-      setDeleteData(res.data)
-      getEmployeeCall()
+
+function TableC() {
+
+    const [allTasks, setAllTasks] = useState("")
+    const [status, setStatus] = useState("")
+
+    useEffect(() => {
+        getAllTasks()
+    }, [status]);
+
+    const updateStatusStart = async (e) => {
+        const currentDate = new Date();
+        const currentDateTime = currentDate.toLocaleString();
+        const body = { id: e, status: 'true', start: currentDateTime }
+        const response = await changeStatus(body)
+        setStatus(response.status);
+
     }
-  }
-  //edit context
-  const { editData, setEditData } = useContext(editContext)
+
+    const updateStatusEnd = async (e) => {
+        const currentDate = new Date();
+        const currentDateTime = currentDate.toLocaleString();
+        const body = { id: e, status: 'end',end:currentDateTime }
+        const response = await changeStatus(body)
+        setStatus(response.satus)
+    }
 
 
-  //store all employee data
-  const [allEmployee, setAllEmployee] = useState([])
 
-  //state to store searching data
-  const [searchKey, setSearchKey] = useState("")
+    const getAllTasks = async () => {
+        const response = await getTasks()
+        setAllTasks(response.data);
+    }
 
-  //define a function to call all employee data api
-  const getEmployeeCall = async () => {
-    const response = await getEmployees(searchKey)
-    setAllEmployee(response.data);
-    // console.log(allEmployee);
-  }
-
-  //to get context
-  const { registerData, setRegisterData } = useContext(registerContext)
-
-  //get delete context
-  const { deleteData, setDeleteData } = useContext(deleteContext)
+    console.log(allTasks);
 
 
-  const [showspin, setspin] = useState(true)
+    return (
+        <div className='w-100'>
+            <div className='home-table-div'>
+                <table class="table mt-5 align-middle mb-0 bg-white  w-75 text-center container" style={{ border: 'grey 2px solid' }}>
+                    <thead class="bg-light">
+                        <tr>
+                            
+                            <th>Task</th>
+                            <th>status</th>
+                            <th>Description</th>
+                            <th>started time</th>
+                            <th>end time</th>
+                            <th></th>
+    
+                        </tr>
+    
+                    </thead>
+                    <tbody>
+    
+                        {
+                            allTasks.length > 0 ? allTasks.map(i => (
+    
+    
+    
+                                <tr>
+                                    
+                                    <td>
+                                        {i.taskName}
+                                    </td>
+                                    <td>
+                                        {i.taskStatus === 'true' ? (
+                                            <span className='text-success'><b>running</b></span>
+                                        ) : i.taskStatus === 'false' ? (
+                                            <span className='text-warning'><b>pending</b></span>
+                                        ) : (
+                                            <span className='text-danger'><b>Finished</b></span>
+                                        )}
+                                    </td>
+                                    <td>
+                                        {i.taskDescription}
+                                    </td>
+    
+                                    <td>
+                                        {i.taskStarts}
+                                    </td>
+                                    <td>
+                                        {i.taskEnds}
+                                    </td>
+                                    <td>
+                                        <div className='d-flex w-100 text-end '>
+                                            {i.taskStatus == 'false' ? (<button onClick={() => updateStatusStart(i._id)} className='home-button-66 bg-success'>Start</button>
+                                            ) : i.taskStatus == 'true' ? (<button onClick={() => updateStatusEnd(i._id)} className='home-button-66 bg-danger'>End</button>
+                                            ) : (<button onClick={() => updateStatusEnd(i._id)} className='home-button-66 bg-primary'>Finished</button>
+                                            )}
+                                            <Link to={`view/${i._id}`}><button className='ms-3 home-button-66 bg-primary'>View</button></Link>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )) : <tr><h1>no tasks present</h1></tr>
+                        }
+    
+    
+                    </tbody>
+    
+                </table>
+            </div>
 
-  useEffect(() => {
-    getEmployeeCall()
-    setTimeout(() => {
-      setspin(false)
-    }, 2000)
 
+            <div className='table-add-div text-center'>
+                <Link to={'add'}>
+                    <button className='text-center mt-3 table-add-button bg-primary button-66 '>add new task</button>
 
-  }, [searchKey])
-  return (
-    <div>
-
-      <div>
-        {
-          registerData ? <Alert className='w-50 container mt-2 text-center' variant={"success"}
-            onClose={() => setRegisterData("")} dismissible>
-            {registerData.fname} is succussfully registered
-          </Alert> : ""
-        }
-        {
-          deleteData ? <Alert className='w-50 container mt-2 text-center' variant={"danger"}
-            onClose={() => setDeleteData("")} dismissible>
-            {deleteData.fname} is deleted ....
-          </Alert> : ""
-        }
-        {
-          editData ? <Alert className='w-50 container mt-2 text-center' variant={"success"}
-            onClose={() => setEditData("")} dismissible>
-            {editData} your data edited successfully ....
-          </Alert> : ""
-        }
-
-      </div>
-
-      <div className='w-75 container '>
-        <form class="d-flex mt-5  ">
-          <input onChange={e => setSearchKey(e.target.value)}
-            class="form-control me-sm-2 w-25 " type="search" placeholder="Search" />
-          <button class="btn btn-primary my-2 my-sm-0 h-25" type="submit" fdprocessedid="xetxow">Search</button>
-          <Link className='text-decoration-none h-25 ms-auto ' to={'add'}>
-            <button class="btn btn-primary h-25 ms-auto " ><i class="fa-solid fa-user-plus "></i>  Add</button>
-
-          </Link>
-        </form>
-      </div>
-      {showspin ?
-        <Loading></Loading>
-        :
-
-
-        <div>
-          <h1 className='mt-5  w-75 textStyle  container'>List of employees</h1>
-
-          <TableC displayData={allEmployee} removeEmp={deleteEmployee}></TableC>
-        </div>}
-
-    </div>
-  )
+                </Link>
+            </div>
+        </div>
+    )
 }
 
-export default Home
+export default TableC

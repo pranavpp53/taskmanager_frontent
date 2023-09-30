@@ -1,10 +1,27 @@
-img{
-    width: 45px;
-    height: 45px;
+table{
+    font-family: 'Cinzel', serif;
 }
-.textStyle{
-    font-family: 'Dancing Script', cursive;
+.table-add-div{
+    margin: auto;
+    width: 20%;
 }
-button{
-    color: black;
+.table-add-button{
+    width: 100%;
+}
+.button-66{
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    border: none;
+    width: max-content;
+    height: 40px;
+    border-radius: 11px;
+}
+.home-button-66{
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    border: none;
+    width: 100px;
+    height: 40px;
+    border-radius: 11px;
+}
+.home-table-div{
+    overflow-x: auto;
 }
